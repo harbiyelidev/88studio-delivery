@@ -1,0 +1,62 @@
+Objects = {
+    sweet = {
+        object = "prop_food_bag1",
+        spawnX = 1.0,
+        spawnY = 1.0,
+        spawnZ = 1.0,
+        isNetwork = 1,
+        netMissionEntity = 1,
+        doorFlag = 0,
+
+        animDict = 'move_weapon@jerrycan@generic',
+        animName = 'idle',
+
+        boneIndex = 57005,
+        xPos = 0.3800,
+        yPos = 0.0,
+        zPos = -0.0300,
+        xRot = 0.0017365,
+        yRot = -79.9999997,
+        zRot = 110.0651988,
+    },
+    pizza = {
+        object = "prop_pizza_box_01",
+        spawnX = 1.0,
+        spawnY = 1.0,
+        spawnZ = 1.0,
+        isNetwork = 1,
+        netMissionEntity = 1,
+        doorFlag = 0,
+
+        animDict = 'anim@heists@box_carry@',
+        animName = 'idle',
+
+        boneIndex = 60309,
+        xPos = 0.2,
+        yPos = 0.08,
+        zPos = 0.2,
+        xRot = -45.0,
+        yRot = 290.0,
+        zRot = 0.0,
+    },
+    hamburger = {
+        object = "prop_food_bs_bag_01",
+        spawnX = 1.0,
+        spawnY = 1.0,
+        spawnZ = 1.0,
+        isNetwork = 1,
+        netMissionEntity = 1,
+        doorFlag = 0,
+
+        animDict = 'move_weapon@jerrycan@generic',
+        animName = 'idle',
+
+        boneIndex = 57005,
+        xPos = 0.3300,
+        yPos = 0.0000,
+        zPos = -0.0300,
+        xRot = 0.0017365,
+        yRot = -79.9999997,
+        zRot = 110.0651988,
+    },
+}

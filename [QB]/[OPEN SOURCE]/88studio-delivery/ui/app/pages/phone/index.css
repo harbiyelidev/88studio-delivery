@@ -1,0 +1,19 @@
+.profile-total-duty-hours {
+    background: linear-gradient(180deg, rgba(42, 43, 49, 0.5) 0%, rgba(243, 175, 95, 0.17) 72.19%) !important;
+    box-shadow: 0vw .0694vw .0694vw rgba(0, 0, 0, 0.05) !important;
+}
+
+.profile-total-duty-minutes {
+    background: linear-gradient(180deg, rgba(42, 43, 49, 0.50) 0%, rgba(178, 243, 95, 0.17) 72.19%) !important;
+    box-shadow: 0vw .0694vw .0694vw rgba(0, 0, 0, 0.05) !important;
+}
+
+.profile-total-duty-seconds {
+    background: linear-gradient(180deg, rgba(42, 43, 49, 0.50) 0%, rgba(243, 95, 122, 0.17) 72.19%) !important;
+    box-shadow: 0vw .0694vw .0694vw rgba(0, 0, 0, 0.05) !important;
+}
+
+.profile-total-duty div {
+    background: linear-gradient(180deg, rgba(191, 191, 191, 0.10) 0%, rgba(140, 140, 140, 0.10) 100%);
+    box-shadow: 0rem .059vw .4464vw #1C1C1C, inset -0.059vw .059vw .3984vw rgba(106, 106, 106, 0.6);
+}

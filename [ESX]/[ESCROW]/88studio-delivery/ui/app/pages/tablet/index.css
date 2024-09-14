@@ -1,0 +1,85 @@
+@font-face {
+    font-family: 'ChakraPetch-Bold';
+    src: url('../../../assets/fonts/ChakraPetch-Bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'ChakraPetch-SemiBold';
+    src: url('../../../assets/fonts/ChakraPetch-SemiBold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'ChakraPetch-Medium';
+    src: url('../../../assets/fonts/ChakraPetch-Medium.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'BebasNeue-Regular';
+    src: url('../../../assets/fonts/BebasNeue-Regular.ttf') format('truetype');
+}
+
+*,
+*::before,
+*::after {
+    -webkit-user-select: none; /* Safari ve Chrome */
+    -moz-user-select: none;    /* Firefox */
+    -ms-user-select: none;     /* Internet Explorer/Edge */
+    user-select: none;         /* Standart */
+}
+
+.profile-total-duty-hours {
+    background: linear-gradient(180deg, rgba(42, 43, 49, 0.5) 0%, rgba(243, 175, 95, 0.17) 72.19%) !important;
+    box-shadow: 0vw .0694vw .0694vw rgba(0, 0, 0, 0.05) !important;
+}
+
+.profile-total-duty-minutes {
+    background: linear-gradient(180deg, rgba(42, 43, 49, 0.50) 0%, rgba(178, 243, 95, 0.17) 72.19%) !important;
+    box-shadow: 0vw .0694vw .0694vw rgba(0, 0, 0, 0.05) !important;
+}
+
+.profile-total-duty-seconds {
+    background: linear-gradient(180deg, rgba(42, 43, 49, 0.50) 0%, rgba(243, 95, 122, 0.17) 72.19%) !important;
+    box-shadow: 0vw .0694vw .0694vw rgba(0, 0, 0, 0.05) !important;
+}
+
+.profile-total-duty div {
+    background: linear-gradient(180deg, rgba(191, 191, 191, 0.10) 0%, rgba(140, 140, 140, 0.10) 100%);
+    box-shadow: 0rem .059vw .4464vw #1C1C1C, inset -0.059vw .059vw .3984vw rgba(106, 106, 106, 0.6);
+}
+
+.grid-template-2 {
+    grid-template-columns: repeat(2, max-content);
+}
+
+.job-name,
+.car-name {
+    text-shadow: 0vw 0vw .6047vw #000;
+    -webkit-text-stroke-width: .0166vw;
+    -webkit-text-stroke-color: rgba(255, 255, 255, 0.47);
+}
+
+.job-description,
+.care-description {
+    text-shadow: 0vw 0vw .5585vw #000;
+    -webkit-text-stroke-width: .0153vw;
+    -webkit-text-stroke-color: rgba(255, 255, 255, 0.47);
+}
+
+.daily-task-box {
+    border: .0308vw solid #f6cbcb17;
+    background: #14141463;
+    box-shadow: 0vw 0vw 1.0259vw 0vw rgba(0, 0, 0, 0.65);
+}
+
+
+#select-a-job .currentXp {
+    text-shadow: 0vw 0vw 1.3987vw #5252528c;
+}
+
+.red-text-shadow {
+    text-shadow: 0vw .2115vw .6346vw rgba(220, 39, 39, 0.51);
+}
+
+.pink-text-shadow {
+    text-shadow: 0vw .2115vw .6346vw rgba(210, 76, 141, 0.51);
+}

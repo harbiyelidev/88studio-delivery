@@ -1,0 +1,152 @@
+<div class="w-[100vw] h-[100vh] flex justify-end p-[2.0313vw]">
+    <div class="flex h-[2.4149vw] items-center justify-center gap-[.4125vw] absolute right-[2.0313vw]" v-if="isPhoneType == 1">
+        <div class="w-[8.4228vw] h-[2.4149vw] flex items-center justify-between bg-[#CA2A2A] px-[.5208vw]">
+            <div class="flex flex-col items-center justify-center">
+                <p class="text-[.8675vw] font-chakra-bold text-center text-white leading-[.9717vw]">{{hours}}</p>
+                <p class="text-[.4149vw] font-chakra-bold text-center text-white leading-[.5191vw]">{{ Locales['HOURS'] }}</p>
+            </div>
+            <div>
+                <p class="text-[.8675vw] font-chakra-bold text-center text-white leading-[.9717vw]">{{minutes}}</p>
+                <p class="text-[.4149vw] font-chakra-bold text-center text-white leading-[.5191vw]">{{ Locales['MINUTES'] }}</p>
+            </div>
+            <div>
+                <p class="text-[.8675vw] font-chakra-bold text-center text-white leading-[.9717vw]">{{seconds}}</p>
+                <p class="text-[.4149vw] font-chakra-bold text-center text-white leading-[.5191vw]">{{ Locales['SECONDS'] }}</p>
+            </div>
+        </div>
+        <p class="w-[2.4149vw] h-[2.4149vw] flex items-center justify-center bg-[#CA2A2A] rotate-180" id="onduty-info-key">
+            <svg xmlns="http://www.w3.org/2000/svg" width="1.4063vw" height="1.4063vw" viewBox="0 0 27 27" fill="none">
+                <path d="M19.6501 18.8601V7.75065H8.54062V11.1689H13.8146L6.97803 18.0055L9.39511 20.4226L16.2318 13.586V18.8601H19.6501Z" fill="#FFFFFF"/>
+            </svg>
+        </p>
+    </div>
+
+    <div class="flex items-center justify-center relative" v-if="isPhoneType == 2">
+        <div class="w-[25.2083vw] h-[30.4688vw] relative overflow-hidden">
+            <div class="w-[25.2083vw] h-[28.9583vw] bg-black rounded-[.4688vw] opacity-[0.98] relative">
+                <img src="./assets/image/info-bg-1.png" alt="info-bg-1" class="w-full h-full rounded-[.4688vw] absolute top-0 left-0">
+                <div class="flex flex w-full justify-end">
+                    <div class="flex w-[2.1354vw] h-[2.1354vw] items-center justify-center bg-[#D4D4D4] info-arrow-close rounded-tr-[.4167vw]">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1.4063vw" height="1.4063vw" viewBox="0 0 27 27" fill="none">
+                            <path d="M19.6501 18.8601V7.75065H8.54062V11.1689H13.8146L6.97803 18.0055L9.39511 20.4226L16.2318 13.586V18.8601H19.6501Z" fill="#383838"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="flex flex-col items-center px-[1.875vw] relative z-[11]">
+                    <div class="w-full flex items-center gap-x-[1.1432vw] mb-[2.2396vw]">
+                        <img :src="userPhone.courierImage ? userPhone.courierImage : './assets/image/default.png'" alt="profile" class="w-[5.1819vw] h-[5.1819vw]">
+                        <div>
+                            <p class="text-white font-chakra-bold text-[1.142vw] leading-[1.2461vw] w-[14.8208vw] line-clamp-1">{{ userPhone.fullname }}</p>
+                            <p class="text-[#A9A9A9] font-chakra-medium text-[.6285vw] leading-[.7327vw] w-[14.8208vw] line-clamp-1">{{ userPhone.description }}</p>
+                            <div class="flex items-center gap-x-[.3141vw] mt-[.4151vw] profile-total-duty">
+                                <div class="w-[2.6042vw] h-[2.6042vw] p-[.2083vw] rounded-[.1563vw] shadow-[0vw_.0694vw_.0694vw_0vw_bg-black/[0.5]] flex flex-col">
+                                    <div class="backdrop-blur-[.2863vw] rounded-[.1837vw] h-[2.1875vw] flex flex-col items-center justify-center profile-total-duty-hours">
+                                        <p class="text-[#F3AF5F] font-chakra-bold text-[.8169vw] leading-[.921vw] line-clamp-1 max-w-[2.1875vw]">{{ userPhone.hours }}</p>
+                                        <p  class="text-white font-chakra-bold text-[.3907vw] leading-[.4948vw] line-clamp-1 max-w-[2.1875vw]">{{ Locales['HOURS'] }}</p>
+                                    </div>
+                                </div>
+                                <div class="w-[2.6042vw] h-[2.6042vw] p-[.2083vw] rounded-[.1563vw] shadow-[0vw_.0694vw_.0694vw_0vw_bg-black/[0.5]] flex flex-col">
+                                    <div class="backdrop-blur-[.2863vw] rounded-[.1837vw] h-[2.1875vw] flex flex-col items-center justify-center profile-total-duty-minutes">
+                                        <p class="text-[#B2F35F] font-chakra-bold text-[.8169vw] leading-[.921vw] line-clamp-1 max-w-[2.1875vw]">{{ userPhone.minutes }}</p>
+                                        <p  class="text-white font-chakra-bold text-[.3907vw] leading-[.4948vw] line-clamp-1 max-w-[2.1875vw]">{{ Locales['MINUTES'] }}</p>
+                                    </div>
+                                </div>
+                                <div class="w-[2.6042vw] h-[2.6042vw] p-[.2083vw] rounded-[.1563vw] shadow-[0vw_.0694vw_.0694vw_0vw_bg-black/[0.5]] flex flex-col">
+                                    <div class="backdrop-blur-[.2863vw] rounded-[.1837vw] h-[2.1875vw] flex flex-col items-center justify-center profile-total-duty-seconds">
+                                        <p class="text-[#F35F7A] font-chakra-bold text-[.8169vw] leading-[.921vw] line-clamp-1 max-w-[2.1875vw]">{{ userPhone.seconds }}</p>
+                                        <p  class="text-white font-chakra-bold text-[.3907vw] leading-[.4948vw] line-clamp-1 max-w-[2.1875vw]">{{ Locales['SECONDS'] }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-full h-[.0521vw] bg-[#222626] mb-[1.25vw]"></div>
+                    <div class="w-full flex items-center justify-between mb-[1.1458vw]">
+                        <div>
+                            <div class="flex items-center gap-x-[.2083vw]">
+                                <div class="w-[.6123vw] h-[.6123vw] bg-[#F35F7A] rounded-full shadow-[0vw_0vw_1.1974vw_0vw_#F35F7A]"></div>
+                                <div class="w-[5.443vw] h-[.1563vw] bg-[#D9D9D912]">
+                                    <div class="h-[.1563vw] bg-[#F35F7A]" :class = "[userPhone.package == 0 ? 'w-[2.8646vw]' : 'w-[5.443vw] ']"></div>
+                                </div>
+                            </div>
+                            <div class="flex flex-col justify-center mt-[.3125vw]">
+                                <p class="text-white font-chakra-semibold text-[.4932vw] leading-[.5974vw]">{{ Locales['ORDER_PREPARATION'] }}</p>
+                                <p class="text-[#F35F7A] font-chakra-medium text-[.4411vw] leading-[.5453vw] hidden">Buraya teslimat hakkında bilgi</p>
+                            </div>
+                        </div>
+                        <div :class="[userPhone.package == 0 ? 'opacity-[0.50]' : '']">
+                            <div class="flex items-center gap-x-[.2083vw]">
+                                <div class="w-[.6123vw] h-[.6123vw] bg-[#EDF061] rounded-full shadow-[0vw_0vw_1.1974vw_0vw_#F0F35F]"></div>
+                                <div class="w-[5.443vw] h-[.1563vw] bg-[#D9D9D912]">
+                                    <div class="h-[.1563vw] bg-[#EDF061]" :class = "[userPhone.package == 0 ? 'w-[0vw]' : 'w-[2.8646vw]']"></div>
+                                </div>
+                            </div>
+                            <div class="flex flex-col justify-center mt-[.3125vw]">
+                                <p class="text-white font-chakra-semibold text-[.4932vw] leading-[.5974vw]">{{ Locales['YOUR_ORDER_IS_ON_ITS_WAY'] }}</p>
+                                <p class="text-[#ECF061] font-chakra-medium text-[.4411vw] leading-[.5453vw] hidden">Buraya teslimat hakkında bilgi</p>
+                            </div>
+                        </div>
+                        <div class="opacity-[0.50]">
+                            <div class="flex items-center gap-x-[.2083vw]">
+                                <div class="w-[.6123vw] h-[.6123vw] bg-[#60EFA2] rounded-full shadow-[0vw_0vw_1.1974vw_0vw_#60EFA2]"></div>
+                                <div class="w-[5.443vw] h-[.1563vw] bg-[#D9D9D912]">
+                                    <div class="w-[0vw] h-[.1563vw] bg-[#60EFA2]"></div>
+                                </div>
+                            </div>
+                            <div class="flex flex-col justify-center mt-[.3125vw]">
+                                <p class="text-white font-chakra-semibold text-[.4932vw] leading-[.5974vw]">{{ Locales['DELIVERED'] }}</p>
+                                <p class="text-[#60EFA2] font-chakra-medium text-[.4411vw] leading-[.5453vw] hidden">Buraya teslimat hakkında bilgi</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-full h-[.0521vw] bg-[#222626] mb-[1.25vw]"></div>
+                    <div class="w-full flex flex-col items-center justify-center mb-[1.4583vw]">
+                        <div class="flex gap-x-[2.2396vw] items-center justify-between">
+                            <div>
+                                <p class="text-[#9F9F9F] text-center font-chakra-bold text-[1.5309vw] leading-[1.6351vw]">{{ hours }}</p>
+                                <p class="text-white text-center font-chakra-bold text-[.7321vw] leading-[.8363vw]">{{ Locales['HOURS'] }}</p>
+                            </div>
+                            <div>
+                                <p class="text-[#9F9F9F] text-center font-chakra-bold text-[1.5309vw] leading-[1.6351vw]">{{ minutes }}</p>
+                                <p class="text-white text-center font-chakra-bold text-[.7321vw] leading-[.8363vw]">{{ Locales['MINUTES'] }}</p>
+                            </div>
+                            <div>
+                                <p class="text-[#FB2C2C] text-center font-chakra-bold text-[1.5309vw] leading-[1.6351vw]">{{ seconds }}</p>
+                                <p class="text-[#FB2C2C] text-center font-chakra-bold text-[.7321vw] leading-[.8363vw]">{{ Locales['SECONDS'] }}</p>
+                            </div>
+                        </div>
+                        <p class="text-[#424242] text-center font-chakra-semibold text-[.9792vw] leading-[1.0834vw] tracking-[.4896vw] mt-[1.25vw]">{{ Locales['LAST_TIME'] }}</p>
+                    </div>
+                    <div class="w-full h-[.0521vw] bg-[#222626] mb-[.7292vw]"></div>
+                    <div class="w-full flex items-center justify-between">
+                        <div>
+                            <img :src="userPhone.courierImage ? userPhone.courierImage : './assets/image/default.png'" alt="profile" class="w-[2.8125vw] h-[2.8125vw] relative">
+                            <div class="flex flex-col justify-start mt-[.4167vw]">
+                                <p class="text-white font-chakra-bold text-[.5971vw] leading-[.7013vw]">{{ Locales['COURIER'] }}</p>
+                                <p class="text-white font-chakra-medium text-[.4742vw] leading-[.5784vw]">{{ userPhone.courierStreet }}</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <img src="./assets/image/motor.svg" alt="motor" class="w-[3.3302vw] h-[2.8125vw]">
+                            <div class="flex flex-col items-center mt-[.4167vw]">
+                                <p class="text-white font-chakra-bold text-[.5971vw] leading-[.7013vw] text-center">{{ Locales['DISTANCE'] }}</p>
+                                <p class="text-white font-chakra-medium text-[.4742vw] leading-[.5784vw]">{{ userPhone.customerDistance ? userPhone.customerDistance : '0.00'}}km</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-end">
+                            <img src="./assets/image/default.png" alt="profile" class="w-[2.8125vw] h-[2.8125vw] relative">
+                            <div class="flex flex-col items-end mt-[.4167vw]">
+                                <p class="text-white font-chakra-bold text-[.5971vw] leading-[.7013vw]">{{ Locales['CUSTOMER'] }}</p>
+                                <p class="text-white font-chakra-medium text-[.4742vw] leading-[.5784vw]">{{ userPhone.customerStreet ? userPhone.customerStreet : 'Null' }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <img src="./assets/image/info-noise.png" alt="noise" class="w-full h-full absolute top-0 left-0 z-[6]">
+            </div>
+            <div class="w-[25.2083vw] h-[1.8229vw] absolute bottom-[0vw] cursor-pointer z-[12] flex items-center justify-center shadow-[0vw_0vw_1.5547vw_0vw_#DC2727]" @click="StopJob();">
+                <p class="w-full h-full rounded-br-[.1058vw] rounded-bl-[.1058vw] bg-[#DC2727] text-[.6586vw] leading-[.7628vw] tracking-[.0102vw] font-chakra-bold text-[#E0E0E0] flex items-center justify-center end-duty-label-shadow">{{ Locales['TERMINATE_JOB'] }}</p>
+            </div>
+        </div>
+    </div>
+</div>

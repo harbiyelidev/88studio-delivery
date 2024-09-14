@@ -1,0 +1,51 @@
+@font-face {
+    font-family: 'ChakraPetch-Bold';
+    src: url('./../fonts/ChakraPetch-Bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'ChakraPetch-SemiBold';
+    src: url('./../fonts/ChakraPetch-SemiBold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'ChakraPetch-Medium';
+    src: url('./../fonts/ChakraPetch-Medium.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'BebasNeue-Regular';
+    src: url('./../fonts/BebasNeue-Regular.ttf') format('truetype');
+}
+
+html {
+	scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+body {
+    /* display: none; */
+	z-index: 5;
+	width: 100vw;
+	height: 100vh;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    position: relative;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
