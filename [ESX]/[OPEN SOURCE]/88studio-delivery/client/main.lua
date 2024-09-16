@@ -12,6 +12,7 @@ isDoorOpen = false
 oldMialege = 0
 cc = nil
 phoneProp = nil
+ox_target = {}
 
 local earnedXP = 0
 local earnedMoney = 0
@@ -35,6 +36,7 @@ RegisterNetEvent('onResourceStart', function(resourceName)
 
     CreateEntity()
     ScriptStarting()
+    IntType = Config.Interaction.type
 end)
 
 RegisterNetEvent('esx:playerLoaded')
@@ -51,18 +53,11 @@ RegisterNetEvent('onResourceStop', function(resourceName)
         return
     end
 
-    if IntType == 'qb-target' then
-        exports['qb-target']:RemoveTargetEntity(bossPed)
-        exports['qb-target']:RemoveTargetEntity(BusinessPed)
-        exports['qb-target']:RemoveTargetBone('boot', Language.TARGET.PUT_PACKAGE_VEHICLE)
-    elseif IntType == 'qtarget' then
-        exports['qtarget']:RemoveTargetEntity(bossPed)
-        exports['qtarget']:RemoveTargetEntity(BusinessPed)
-        exports['qtarget']:RemoveTargetBone('boot', Language.TARGET.PUT_PACKAGE_VEHICLE)
-    elseif IntType == 'ox_target' then
+    if IntType == 'ox_target' then
         exports['ox_target']:removeLocalEntity(bossPed)
         exports['ox_target']:removeLocalEntity(BusinessPed)
         exports['ox_target']:removeGlobalVehicle('deliver_put_package_vehicle')
+        exports['ox_target']:removeGlobalVehicle('deliver_pickup_package_vehicle')
     end
 
     if bossPed then
@@ -283,10 +278,18 @@ CheckTaskTrolleyToRemoveBlip = function()
                 local plate = GetVehicleNumberPlateText(vehicle)
                 if plate == vehiclePlate then
                     TriggerEvent('88studio-delivery:client:newBusinessLocation')
-                    CheckDifferentVehicle()
-                    SetVehicleKM()
-                    CheckVehicleDistance()
-                    ShowDutyTime()
+                    CreateThread(function()
+                        ShowDutyTime()
+                    end)
+                    CreateThread(function()
+                        SetVehicleKM()
+                    end)
+                    CreateThread(function()
+                        CheckVehicleDistance()
+                    end)
+                    CreateThread(function()
+                        CheckDifferentVehicle()
+                    end)
                     break
                 end
             end
@@ -414,37 +417,8 @@ end
 
 PutTheTrunk = function()
     local ped = PlayerPedId()
-
-    if Config.Interaction.type == 'qb-target' or Config.Interaction.type == 'qtarget' then
-        exports[Config.Interaction.type]:AddTargetBone({'boot'}, {
-            options = {
-                {
-                    label = Lang[Config.Language].TARGET.PUT_PACKAGE_VEHICLE,
-                    icon = 'fas fa-box',
-                    action = function(entity)
-                        packageInTheTrunk = 2
-                        FreezeEntityPosition(ped, true)
-                        local animDict = Animations.vehicleTrunk.animDict
-                        RequestAnimDict(animDict)
-                        while not HasAnimDictLoaded(animDict) do
-                            Citizen.Wait(100)
-                        end
-                        SetProp()
-                        ClearPedTasks(ped)
-                        TaskPlayAnim(ped, animDict, Animations.vehicleTrunk.animName, 5.0, 5.0, -1, 51, 0, 0, 0, 0)
-                        Citizen.Wait(1000)
-                        FreezeEntityPosition(ped, false)
-                        ClearPedTasks(ped)
-                    end,
-                    canInteract = function(entity, distance, data)
-                        local plaka = GetVehicleNumberPlateText(entity)
-                        return (plaka == vehiclePlate and packageInTheTrunk == 1)
-                    end,
-                }
-            },
-            distance = 2.5,
-        })
-    elseif Config.Interaction.type == 'ox_target' then
+    
+    if Config.Interaction.type == 'ox_target' then
         exports.ox_target:addGlobalVehicle({
             name = 'deliver_put_package_vehicle',
             label = Lang[Config.Language].TARGET.PUT_PACKAGE_VEHICLE,
@@ -523,59 +497,32 @@ end
 GetTheTrunk = function()
     local ped = PlayerPedId()
     SetupGetTarget = true
-    if Config.Interaction.type == 'qb-target' or Config.Interaction.type == 'qtarget' then
-        exports[Config.Interaction.type]:AddTargetBone({'boot'}, {
-            options = {
-                {
-                    label = Lang[Config.Language].TARGET.PICK_UP_PACKAGE_VEHICLE,
-                    icon = 'fas fa-box',
-                    action = function(entity)
-                        packageInTheTrunk = 1
-                        FreezeEntityPosition(ped, true)
-                        local animDict = Animations.vehicleTrunk.animDict
-                        RequestAnimDict(animDict)
-                        while not HasAnimDictLoaded(animDict) do
-                            Citizen.Wait(100)
-                        end
-                        TaskPlayAnim(ped, animDict, Animations.vehicleTrunk.animName, 5.0, 5.0, -1, 51, 0, 0, 0, 0)
-                        Citizen.Wait(1000)
-                        SetProp()
-                        ClearPedTasks(ped)
-                        FreezeEntityPosition(ped, false)
-                    end,
-                    canInteract = function(entity, distance, data)
-                        local plaka = GetVehicleNumberPlateText(entity)
-                        return (plaka == vehiclePlate and packageInTheTrunk == 2)
-                    end,
-                }
-            },
-            distance = 2.5,
-        })
-    elseif Config.Interaction.type == 'ox_target' then
+    if Config.Interaction.type == 'ox_target' then
         exports.ox_target:addGlobalVehicle({
-                label = Lang[Config.Language].TARGET.PICK_UP_PACKAGE_VEHICLE,
-                icon = 'fas fa-box',
-                distance = 2.5,
-                bones = 'boot',
-                onSelect = function()
-                    packageInTheTrunk = 1
-                    FreezeEntityPosition(ped, true)
-                    local animDict = Animations.vehicleTrunk.animDict
-                    RequestAnimDict(animDict)
-                    while not HasAnimDictLoaded(animDict) do
-                        Citizen.Wait(100)
-                    end
-                    TaskPlayAnim(ped, animDict, Animations.vehicleTrunk.animName, 5.0, 5.0, -1, 51, 0, 0, 0, 0)
-                    Citizen.Wait(1000)
-                    SetProp()
-                    ClearPedTasks(ped)
-                    FreezeEntityPosition(ped, false)
-                end,
-                canInteract = function(entity)
-                    local plaka = GetVehicleNumberPlateText(entity)
-                    return (plaka == vehiclePlate and packageInTheTrunk == 2)
-                end,
-            })
+            name = 'deliver_pickup_package_vehicle',
+            label = Lang[Config.Language].TARGET.PICK_UP_PACKAGE_VEHICLE,
+            icon = 'fas fa-box',
+            distance = 2.5,
+            bones = 'boot',
+            onSelect = function()
+                packageInTheTrunk = 1
+                FreezeEntityPosition(ped, true)
+                local animDict = Animations.vehicleTrunk.animDict
+                RequestAnimDict(animDict)
+                while not HasAnimDictLoaded(animDict) do
+                    Citizen.Wait(100)
+                end
+                TaskPlayAnim(ped, animDict, Animations.vehicleTrunk.animName, 5.0, 5.0, -1, 51, 0, 0, 0, 0)
+                Citizen.Wait(1000)
+                SetProp()
+                ClearPedTasks(ped)
+                FreezeEntityPosition(ped, false)
+            end,
+            canInteract = function(entity)
+                local plaka = GetVehicleNumberPlateText(entity)
+                return (plaka == vehiclePlate and packageInTheTrunk == 2)
+            end,
+        })
     elseif Config.Interaction.type == 'drawtext' then
         Citizen.CreateThread(function()
             while inTheJob and not propBool and packageInTheTrunk == 2 do
@@ -1050,6 +997,14 @@ end)
 -- ╚══════╝╚═╝  ╚═╝  ╚═══╝  ╚══════╝     ╚════╝  ╚═════╝ ╚═════╝ 
 
 RegisterNetEvent('88studio-delivery:client:saveJob', function()
+    if IntType = 'ox_target' then
+        exports.ox_target:removeZone(ox_target.return_vehicle)
+    end
+
+    if DoesBlipExist(MissionBlip) then
+        RemoveBlip(MissionBlip)
+    end
+    
     TriggerServerEvent('88studio-delivery:server:saveJob', {
         xp = earnedXP,
         money = earnedMoney,
@@ -1161,7 +1116,7 @@ RegisterNetEvent('88studio-delivery:client:deliverPackage', function(c, ac)
         LocalXP = Config.Stage[jobDetails.job_type].earnedXP.stable
         earnedXP = earnedXP + LocalXP
     elseif Config.Stage[jobDetails.job_type].earnedXP.type == 'random' then
-        LocalXP = math.random(Config.Stage[jobDetails.job_type].earnedXP.min, Config.Stage[jobDetails.job_type].earnedXP.max)
+        LocalXP = math.random(Config.Stage[jobDetails.job_type].earnedXP.random.min, Config.Stage[jobDetails.job_type].earnedXP.random.max)
         earnedXP = earnedXP + LocalXP
     end
 
@@ -1169,7 +1124,7 @@ RegisterNetEvent('88studio-delivery:client:deliverPackage', function(c, ac)
         LocalMoney = Config.Stage[jobDetails.job_type].packageFee.stable
         earnedMoney = earnedMoney + LocalMoney
     elseif Config.Stage[jobDetails.job_type].packageFee.type == 'random' then
-        LocalMoney = math.random(Config.Stage[jobDetails.job_type].packageFee.min, Config.Stage[jobDetails.job_type].packageFee.max)
+        LocalMoney = math.random(Config.Stage[jobDetails.job_type].packageFee.random.min, Config.Stage[jobDetails.job_type].packageFee.random.max)
         earnedMoney = earnedMoney + LocalMoney
     end
 

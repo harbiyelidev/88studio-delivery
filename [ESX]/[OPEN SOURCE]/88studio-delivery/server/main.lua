@@ -111,6 +111,69 @@ RegisterNetEvent('88studio-delivery:server:saveJob', function(data)
     end
 end)
 
+if Config.Commands.AddEXP.enable then
+    Framework.RegisterCommand({Config.Commands.AddEXP.command}, Config.Commands.AddEXP.minRank, function(xPlayer, args, showError)
+        if not args[1] or not args[2] then
+            return
+        end
+
+        local target = tonumber(args[1])
+        local xp = tonumber(args[2])
+
+        if not target or not xp then
+            return
+        end
+
+        if target < 1 or xp < 1 then
+            return
+        end
+
+        TriggerEvent('88studio-delivery:server:addEXP', target, xp)
+    end, false, {help = Config.Commands.AddEXP.description, arguments = {{name = 'id', help = 'Player ID', type = 'number'}, {name = 'xp', help = 'XP Amount', type = 'number'}}})
+end
+
+if Config.Commands.RemoveEXP.enable then
+    Framework.RegisterCommand({Config.Commands.RemoveEXP.command}, Config.Commands.RemoveEXP.minRank, function(xPlayer, args, showError)
+        if not args[1] or not args[2] then
+            return
+        end
+
+        local target = tonumber(args[1])
+        local xp = tonumber(args[2])
+
+        if not target or not xp then
+            return
+        end
+
+        if target < 1 or xp < 1 then
+            return
+        end
+
+        TriggerEvent('88studio-delivery:server:removeEXP', target, xp)
+    end, false, {help = Config.Commands.RemoveEXP.description, arguments = {{name = 'id', help = 'Player ID', type = 'number'}, {name = 'xp', help = 'XP Amount', type = 'number'}}})
+end
+
+if Config.Commands.ResetEXP.enable then
+    Framework.RegisterCommand({Config.Commands.ResetEXP.command}, Config.Commands.ResetEXP.minRank, function(xPlayer, args, showError)
+        if not args[1] then
+            return
+        end
+
+        local target = tonumber(args[1])
+
+        if not target then
+            return
+        end
+
+        if target < 1 then
+            return
+        end
+
+        TriggerEvent('88studio-delivery:server:resetEXP', target)
+    end, false, {help = Config.Commands.ResetEXP.description, arguments = {{name = 'id', help = 'Player ID', type = 'number'}}})
+end
+
+
 RegisterNetEvent('88studio-delivery:server:addEXP', function(target, xp)
     local src = source
     local Player = exports['88studio-core']:GetPlayer(src)

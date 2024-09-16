@@ -5,7 +5,16 @@ Config.Language = 'en'
 Config.SQL = 'oxmysql' -- oxmysql or ghmattimysql or mysql-async
 
 Config.Interaction = {
-    type = 'ox_target',
+    type = 'qb-target',
+    text = {
+        distance = 3.0,
+        key = 'E',
+        color = 'g'
+    }
+}
+
+Config.ReturnVehicle = {
+    type = 'qb-target',
     text = {
         distance = 3.0,
         key = 'E',
@@ -35,7 +44,7 @@ Config.DutyPhone = {
 }
 
 Config.DutyTablet = {
-    type = 'command', -- interaction or item or command
+    type = 'interaction', -- interaction or item or command
     interaction = {
         coords = vector4(222.48, 375.45, 106.38, 65.9),
         model = "a_m_y_bevhills_01",
@@ -205,8 +214,8 @@ Config.Stage = {
             },
         },
         packageFee = {
-            type = 'stable', -- stable or random
-            stable = 10000,
+            type = 'random', -- stable or random
+            stable = 5,
             random = {
                 min = 1,
                 max = 5

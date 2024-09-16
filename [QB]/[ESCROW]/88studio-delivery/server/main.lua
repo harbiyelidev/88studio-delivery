@@ -110,6 +110,68 @@ RegisterNetEvent('88studio-delivery:server:saveJob', function(data)
     end
 end)
 
+if Config.Commands.AddEXP.enable then
+    Framework.Commands.Add(Config.Commands.AddEXP.command, Config.Commands.AddEXP.description, {{name = 'id', help = 'Player ID'}, {name = 'xp', help = 'XP Amount'}}, true, function(source, args)
+        if not args[1] or not args[2] then
+            return
+        end
+
+        local target = tonumber(args[1])
+        local xp = tonumber(args[2])
+
+        if not target or not xp then
+            return
+        end
+
+        if target < 1 or xp < 1 then
+            return
+        end
+
+        TriggerEvent('88studio-delivery:server:addEXP', target, xp)
+    end, Config.Commands.AddEXP.minRank)
+end
+
+if Config.Commands.RemoveEXP.enable then
+    Framework.Commands.Add(Config.Commands.RemoveEXP.command, Config.Commands.RemoveEXP.description, {{name = 'id', help = 'Player ID'}, {name = 'xp', help = 'XP Amount'}}, true, function(source, args)
+        if not args[1] or not args[2] then
+            return
+        end
+
+        local target = tonumber(args[1])
+        local xp = tonumber(args[2])
+
+        if not target or not xp then
+            return
+        end
+
+        if target < 1 or xp < 1 then
+            return
+        end
+
+        TriggerEvent('88studio-delivery:server:removeEXP', target, xp)
+    end, Config.Commands.RemoveEXP.minRank)
+end
+
+if Config.Commands.RemoveEXP.enable then
+    Framework.Commands.Add(Config.Commands.ResetEXP.command, Config.Commands.ResetEXP.description, {{name = 'id', help = 'Player ID'}}, true, function(source, args)
+        if not args[1] then
+            return
+        end
+
+        local target = tonumber(args[1])
+
+        if not target then
+            return
+        end
+
+        if target < 1 then
+            return
+        end
+
+        TriggerEvent('88studio-delivery:server:resetEXP', target)
+    end, Config.Commands.ResetEXP.minRank)
+end
+
 RegisterNetEvent('88studio-delivery:server:addEXP', function(target, xp)
     local src = source
     local Player = exports['88studio-core']:GetPlayer(src)

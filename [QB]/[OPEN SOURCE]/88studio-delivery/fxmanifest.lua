@@ -35,11 +35,11 @@ server_scripts {
 }
 
 escrow_ignore {
-    'client/*.lua',
-    'server/*.lua',
     'config/*.lua',
     'locales/*.lua',
     'shared/*.lua',
+    'server/main.lua',
+    'client/*.lua',
 }
 
 files {

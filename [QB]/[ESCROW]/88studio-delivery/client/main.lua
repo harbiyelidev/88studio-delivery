@@ -12,6 +12,7 @@ isDoorOpen = false
 oldMialege = 0
 cc = nil
 phoneProp = nil
+ox_target = {}
 
 local earnedXP = 0
 local earnedMoney = 0
@@ -35,6 +36,7 @@ RegisterNetEvent('onResourceStart', function(resourceName)
 
     CreateEntity()
     ScriptStarting()
+    IntType = Config.Interaction.type
 end)
 
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
@@ -53,11 +55,46 @@ RegisterNetEvent('onResourceStop', function(resourceName)
     if IntType == 'qb-target' then
         exports['qb-target']:RemoveTargetEntity(bossPed)
         exports['qb-target']:RemoveTargetEntity(BusinessPed)
-        exports['qb-target']:RemoveTargetBone('boot', Language.TARGET.PUT_PACKAGE_VEHICLE)
+        exports['qb-target']:RemoveTargetBone({'boot'}, Language.TARGET.PUT_PACKAGE_VEHICLE)
+        exports['qb-target']:RemoveTargetBone({'boot'}, Language.TARGET.PICK_UP_PACKAGE_VEHICLE)
     elseif IntType == 'qtarget' then
         exports['qtarget']:RemoveTargetEntity(bossPed)
         exports['qtarget']:RemoveTargetEntity(BusinessPed)
-        exports['qtarget']:RemoveTargetBone('boot', Language.TARGET.PUT_PACKAGE_VEHICLE)
+        exports['qtarget']:RemoveTargetBone({'boot'}, Language.TARGET.PUT_PACKAGE_VEHICLE)
+        exports['qtarget']:RemoveTargetBone({'boot'}, Language.TARGET.PICK_UP_PACKAGE_VEHICLE)
+    elseif IntType == 'ox_target' then
+        exports['ox_target']:removeLocalEntity(bossPed)
+        exports['ox_target']:removeLocalEntity(BusinessPed)
+        exports['ox_target']:removeGlobalVehicle('deliver_put_package_vehicle')
+    end
+
+    if bossPed then
+        DeleteEntity(bossPed)
+    end
+
+    if newProp then
+        DeleteEntity(newProp)
+    end
+
+    if MissionBlip then
+        RemoveBlip(MissionBlip)
+    end
+    TriggerEvent('chat:removeSuggestion', Config.DutyTablet.command.name)
+    StopTabletAnim()
+    StopPhoneAnim()
+end)
+
+RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
+    if IntType == 'qb-target' then
+        exports['qb-target']:RemoveTargetEntity(bossPed)
+        exports['qb-target']:RemoveTargetEntity(BusinessPed)
+        exports['qb-target']:RemoveTargetBone({'boot'}, Language.TARGET.PUT_PACKAGE_VEHICLE)
+        exports['qb-target']:RemoveTargetBone({'boot'}, Language.TARGET.PICK_UP_PACKAGE_VEHICLE)
+    elseif IntType == 'qtarget' then
+        exports['qtarget']:RemoveTargetEntity(bossPed)
+        exports['qtarget']:RemoveTargetEntity(BusinessPed)
+        exports['qtarget']:RemoveTargetBone({'boot'}, Language.TARGET.PUT_PACKAGE_VEHICLE)
+        exports['qtarget']:RemoveTargetBone({'boot'}, Language.TARGET.PICK_UP_PACKAGE_VEHICLE)
     elseif IntType == 'ox_target' then
         exports['ox_target']:removeLocalEntity(bossPed)
         exports['ox_target']:removeLocalEntity(BusinessPed)
@@ -282,10 +319,18 @@ CheckTaskTrolleyToRemoveBlip = function()
                 local plate = GetVehicleNumberPlateText(vehicle)
                 if plate == vehiclePlate then
                     TriggerEvent('88studio-delivery:client:newBusinessLocation')
-                    CheckDifferentVehicle()
-                    SetVehicleKM()
-                    CheckVehicleDistance()
-                    ShowDutyTime()
+                    CreateThread(function()
+                        ShowDutyTime()
+                    end)
+                    CreateThread(function()
+                        SetVehicleKM()
+                    end)
+                    CreateThread(function()
+                        CheckVehicleDistance()
+                    end)
+                    CreateThread(function()
+                        CheckDifferentVehicle()
+                    end)
                     break
                 end
             end
@@ -1049,6 +1094,16 @@ end)
 -- ╚══════╝╚═╝  ╚═╝  ╚═══╝  ╚══════╝     ╚════╝  ╚═════╝ ╚═════╝ 
 
 RegisterNetEvent('88studio-delivery:client:saveJob', function()
+    if DoesBlipExist(MissionBlip) then
+        RemoveBlip(MissionBlip)
+    end
+
+    if Config.Interaction.type == 'qb-target' or Config.Interaction.type == 'qtarget' then
+        exports[Config.Interaction.type]:RemoveZone("return-car")
+    elseif Config.Interaction.type == 'ox_target' then
+        exports.ox_target:removeZone(ox_target.return_vehicle)
+    end
+
     TriggerServerEvent('88studio-delivery:server:saveJob', {
         xp = earnedXP,
         money = earnedMoney,
@@ -1160,7 +1215,7 @@ RegisterNetEvent('88studio-delivery:client:deliverPackage', function(c, ac)
         LocalXP = Config.Stage[jobDetails.job_type].earnedXP.stable
         earnedXP = earnedXP + LocalXP
     elseif Config.Stage[jobDetails.job_type].earnedXP.type == 'random' then
-        LocalXP = math.random(Config.Stage[jobDetails.job_type].earnedXP.min, Config.Stage[jobDetails.job_type].earnedXP.max)
+        LocalXP = math.random(Config.Stage[jobDetails.job_type].earnedXP.random.min, Config.Stage[jobDetails.job_type].earnedXP.random.max)
         earnedXP = earnedXP + LocalXP
     end
 
@@ -1168,7 +1223,7 @@ RegisterNetEvent('88studio-delivery:client:deliverPackage', function(c, ac)
         LocalMoney = Config.Stage[jobDetails.job_type].packageFee.stable
         earnedMoney = earnedMoney + LocalMoney
     elseif Config.Stage[jobDetails.job_type].packageFee.type == 'random' then
-        LocalMoney = math.random(Config.Stage[jobDetails.job_type].packageFee.min, Config.Stage[jobDetails.job_type].packageFee.max)
+        LocalMoney = math.random(Config.Stage[jobDetails.job_type].packageFee.random.min, Config.Stage[jobDetails.job_type].packageFee.random.max)
         earnedMoney = earnedMoney + LocalMoney
     end
 

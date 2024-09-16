@@ -170,11 +170,19 @@ SpawnVehicle = function(vehicle)
         else
             SetVehicleEngineOn(veh, true, true)
             TaskWarpPedIntoVehicle(PlayerPedId(), veh, -1)
-            TriggerEvent('88studio-delivery:client:newBusiness')
-            CheckDifferentVehicle(vehiclePlate)
-            ShowDutyTime()
-            SetVehicleKM()
-            CheckVehicleDistance()
+            TriggerEvent('88studio-delivery:client:newBnewBusinessLocationusiness')
+            CreateThread(function()
+                ShowDutyTime()
+            end)
+            CreateThread(function()
+                SetVehicleKM()
+            end)
+            CreateThread(function()
+                CheckVehicleDistance()
+            end)
+            CreateThread(function()
+                CheckDifferentVehicle()
+            end)
         end
         exports['88studio-core']:SetFuel(veh, 100.0)
     end)
@@ -357,44 +365,8 @@ end
 -- ╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═══╝      ╚═══╝  ╚══════╝╚═╝  ╚═╝╚═╝ ╚═════╝╚══════╝╚══════╝
 
 ReturnVehicle = function()
-    if Config.Interaction.type == 'qb-target' or Config.Interaction.type == 'qtarget' then
-        exports[Config.Interaction.type]:AddBoxZone("return-car", vector3(ReturnVehicleCoords.x, ReturnVehicleCoords.y, ReturnVehicleCoords.z), 1.5, 1.6, {
-            name = "return-car",
-            heading = 12.0,
-            debugPoly = false,
-            minZ = ReturnVehicleCoords.z-1.0,
-            maxZ = ReturnVehicleCoords.z+1.0,
-        }, {
-            options = {
-                {
-                    icon = 'fas fa-car',
-                    label = Lang[Config.Language].TARGET.RETURN_VEHICLE,
-                    action = function()
-                        TriggerEvent('88studio-delivery:client:deleteVehicle')
-                        TriggerEvent('88studio-delivery:client:saveJob')
-                    end,
-                    canInteract = function(entity, distance, data)
-                        if IsPedAPlayer(entity) then 
-                            return false 
-                        end
-
-                        local vehicle = GetVehiclePedIsIn(playerPed, false)
-
-                        if vehicle and vehicle ~= 0 then
-                            local plate = GetVehicleNumberPlateText(vehicle)
-                            if plate == vehiclePlate then
-                                return true
-                            end
-                        else
-                            return false
-                        end
-                    end,
-                }
-            },
-            distance = 2.5,
-        })
-    elseif Config.Interaction.type == 'ox_target' then
-        exports.ox_target:addBoxZone({
+    if Config.Interaction.type == 'ox_target' then
+        ox_target.return_vehicle = exports.ox_target:addBoxZone({
             coords = ReturnVehicleCoords,
             options = {
                 icon = 'fas fa-car',
@@ -434,6 +406,7 @@ ReturnVehicle = function()
                     if IsControlJustPressed(0, 38) then
                         TriggerEvent('88studio-delivery:client:deleteVehicle')
                         TriggerEvent('88studio-delivery:client:saveJob')
+                        break
                     end
                 end
 

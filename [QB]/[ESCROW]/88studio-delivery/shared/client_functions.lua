@@ -172,11 +172,19 @@ SpawnVehicle = function(vehicle)
         else
             SetVehicleEngineOn(veh, true, true)
             TaskWarpPedIntoVehicle(PlayerPedId(), veh, -1)
-            TriggerEvent('88studio-delivery:client:newBusiness')
-            CheckDifferentVehicle(vehiclePlate)
-            ShowDutyTime()
-            SetVehicleKM()
-            CheckVehicleDistance()
+            TriggerEvent('88studio-delivery:client:newBusinessLocation')
+            CreateThread(function()
+                ShowDutyTime()
+            end)
+            CreateThread(function()
+                SetVehicleKM()
+            end)
+            CreateThread(function()
+                CheckVehicleDistance()
+            end)
+            CreateThread(function()
+                CheckDifferentVehicle()
+            end)
         end
         exports['88studio-core']:SetFuel(veh, 100.0)
     end, vector3(coords.x, coords.y, coords.z), true)
@@ -385,10 +393,10 @@ ReturnVehicle = function()
                         if vehicle and vehicle ~= 0 then
                             local plate = GetVehicleNumberPlateText(vehicle)
                             if plate == vehiclePlate then
-                                return true
+                                return false
                             end
                         else
-                            return false
+                            return true
                         end
                     end,
                 }
@@ -396,7 +404,7 @@ ReturnVehicle = function()
             distance = 2.5,
         })
     elseif Config.Interaction.type == 'ox_target' then
-        exports.ox_target:addBoxZone({
+        ox_target.return_vehicle = exports.ox_target:addBoxZone({
             coords = ReturnVehicleCoords,
             options = {
                 icon = 'fas fa-car',
